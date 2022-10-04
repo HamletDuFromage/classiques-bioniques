@@ -1,4 +1,3 @@
-import epubfile
 import math
 import re
 import glob
@@ -77,8 +76,8 @@ class EasyRead:
         return res
 
     def additionalInfo(self, infos):
-        infos["original-filename"] = f"easyread_{infos['identifier']}.md"
-        cover_filename = f"easyread_{infos['identifier']}.png"
+        infos["original-filename"] = f"bionic_{infos['identifier']}.md"
+        cover_filename = f"bionic_{infos['identifier']}.png"
         author = infos["creator"].split(", ")
         try: 
             infos["author"] = f"{author[1]} {author[0]}"
@@ -105,14 +104,13 @@ class EasyRead:
         title_wrapped = textwrap.wrap(title_str, 34)
         title.text((1/10*dimensions[0], 2/3*dimensions[1]), '\n'.join(title_wrapped), font=font, fill = (0, 0, 0))
         
-        
         font = ImageFont.truetype(mainfont, 20)
         author = ImageDraw.Draw(img)
         author.text((1/10*dimensions[0], (2/3-1/40)*dimensions[1]), author_str, font=font, fill = (124, 124, 124))
         
         font = ImageFont.truetype(mainfont, 18)
         collection = ImageDraw.Draw(img)
-        w, h = collection.textsize(collection_str, font=font)
+        w = collection.textlength(collection_str, font=font)
         collection.text((19/20*dimensions[0] - w, 9.3/10*dimensions[1]), collection_str, font=font, fill=(100, 100, 100))
         
         img.save(filename)

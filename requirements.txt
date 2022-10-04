@@ -1,2 +1,1 @@
-epubfile==0.0.8
 Pillow==9.2.0

@@ -8,9 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: update repo
-      run: |
-        git submodule update --init --recursive
+      with:
+        submodules: true
         
     - name: Set up Python 3.x
       uses: actions/setup-python@v1
@@ -19,17 +18,14 @@ jobs:
 
     - name: install dependencies
       run: |
-        if [ -f ./scripts/requirements.txt ]; then pip3 install -r ./scripts/requirements.txt; fi
+        if [ -f ./requirements.txt ]; then pip3 install -r ./requirements.txt; fi
+        sudo apt-get install pandoc
 
     - name: run the script
       run: |
         python3 ./bionic-converter.py
 
-    - name: compress e-books
-      run: |
-        zip -r classiques-bioniques.zip out/ -i '*.epub'
-        
     - uses: actions/upload-artifact@master
       with:
         name: classiques-bioniques
-        path: classiques-bioniques.zip
+        path: out/*.epub
